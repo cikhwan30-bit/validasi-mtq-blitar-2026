@@ -1,0 +1,61 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Validasi Usia MTQ Kabupaten Blitar 2026</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f7f4;color:#173126}
+.wrap{max-width:760px;margin:auto;padding:20px}.hero{background:linear-gradient(135deg,#087443,#075b39);color:white;padding:25px;border-radius:20px}
+.card{background:white;margin-top:16px;padding:22px;border-radius:18px;box-shadow:0 8px 25px #17312615}
+h1{font-size:25px;margin:0 0 8px}h2{font-size:19px}.badge{display:inline-block;background:#d8b65a;color:#173126;padding:6px 10px;border-radius:20px;font-weight:bold;font-size:12px}
+label{display:block;font-weight:bold;margin:15px 0 7px}select,input{width:100%;padding:13px;border:1px solid #ccd8d1;border-radius:10px;font-size:15px}
+button{width:100%;margin-top:16px;padding:14px;border:0;border-radius:10px;background:#087443;color:white;font-weight:bold;font-size:15px}
+button:disabled{background:#b8c4bd}.result{margin-top:15px;padding:16px;border-radius:12px;line-height:1.55;display:none}
+.ok{display:block;background:#e9f8ef;border:1px solid #9bd6b3;color:#126039}.bad{display:block;background:#fff0ef;border:1px solid #efaaa4;color:#8e1d16}
+.small{font-size:12px;color:#69786f;margin-top:6px}.note{font-size:13px;color:#69786f;line-height:1.5}
+</style></head><body><div class="wrap">
+<div class="hero"><span class="badge">MTQ KABUPATEN BLITAR • 2026</span>
+<h1>Validasi Usia Peserta</h1>
+<div>Validasi berdasarkan ketentuan usia pada <b>5 November 2026</b>.</div></div>
+<div class="card">
+<label>Cabang / Golongan</label><select id="branch"><option value="">— Pilih Cabang / Golongan —</option></select>
+<label>Tanggal Lahir</label><input id="dob" type="date" max="2026-11-05">
+<div class="small">Tanggal acuan: 05 November 2026</div>
+<div id="result" class="result"></div>
+<button id="go" disabled>Lanjutkan ke Pendaftaran Tally</button>
+<p class="note">Peserta yang tidak memenuhi syarat usia tidak dapat melanjutkan ke formulir Tally.</p>
+</div></div>
+<script>
+const RULES=[{"no": 1, "name": "Tartil Putra", "y": 10, "m": 11, "d": 29}, {"no": 2, "name": "Tartil Putri", "y": 10, "m": 11, "d": 29}, {"no": 3, "name": "Tilawah Anak-Anak Putra", "y": 12, "m": 11, "d": 29}, {"no": 4, "name": "Tilawah Anak-Anak Putri", "y": 12, "m": 11, "d": 29}, {"no": 5, "name": "Tilawah Remaja Putra", "y": 22, "m": 11, "d": 29}, {"no": 6, "name": "Tilawah Remaja Putri", "y": 22, "m": 11, "d": 29}, {"no": 7, "name": "Tilawah Dewasa Putra", "y": 38, "m": 11, "d": 29}, {"no": 8, "name": "Tilawah Dewasa Putri", "y": 38, "m": 11, "d": 29}, {"no": 9, "name": "MHQ 1 Juz dan Tilawah Putra", "y": 13, "m": 11, "d": 29}, {"no": 10, "name": "MHQ 1 Juz dan Tilawah Putri", "y": 13, "m": 11, "d": 29}, {"no": 11, "name": "MHQ 5 Juz dan Tilawah Putra", "y": 18, "m": 11, "d": 29}, {"no": 12, "name": "MHQ 5 Juz dan Tilawah Putri", "y": 18, "m": 11, "d": 29}, {"no": 13, "name": "MHQ 10 Juz Putra", "y": 20, "m": 11, "d": 29}, {"no": 14, "name": "MHQ 10 Juz Putri", "y": 20, "m": 11, "d": 29}, {"no": 15, "name": "MFQ Regu Putra — Juru Bicara", "y": 16, "m": 11, "d": 29}, {"no": 16, "name": "MFQ Regu Putra — Pendamping 1", "y": 16, "m": 11, "d": 29}, {"no": 17, "name": "MFQ Regu Putra — Pendamping 2", "y": 16, "m": 11, "d": 29}, {"no": 18, "name": "MFQ Regu Putri — Juru Bicara", "y": 16, "m": 11, "d": 29}, {"no": 19, "name": "MFQ Regu Putri — Pendamping 1", "y": 16, "m": 11, "d": 29}, {"no": 20, "name": "MFQ Regu Putri — Pendamping 2", "y": 16, "m": 11, "d": 29}, {"no": 21, "name": "MSQ Regu Putra — Juru Bicara", "y": 16, "m": 11, "d": 29}, {"no": 22, "name": "MSQ Regu Putra — Penterjemah", "y": 16, "m": 11, "d": 29}, {"no": 23, "name": "MSQ Regu Putra — Tilawah", "y": 16, "m": 11, "d": 29}, {"no": 24, "name": "MSQ Regu Putri — Juru Bicara", "y": 16, "m": 11, "d": 29}, {"no": 25, "name": "MSQ Regu Putri — Penterjemah", "y": 16, "m": 11, "d": 29}, {"no": 26, "name": "MSQ Regu Putri — Tilawah", "y": 16, "m": 11, "d": 29}, {"no": 27, "name": "MKQ Putra", "y": 32, "m": 11, "d": 29}, {"no": 28, "name": "MKQ Putri", "y": 32, "m": 11, "d": 29}];
+const REF=new Date(Date.UTC(2026,10,5));
+const TALLY="https://tally.so/r/PdKR4b";
+const b=document.getElementById("branch"),d=document.getElementById("dob"),res=document.getElementById("result"),go=document.getElementById("go");
+RULES.forEach(r=>{let o=document.createElement("option");o.value=r.no;o.textContent=r.no+". "+r.name;b.appendChild(o)});
+
+function ageAt(x,r){
+ let y=r.getUTCFullYear()-x.getUTCFullYear(),m=r.getUTCMonth()-x.getUTCMonth(),day=r.getUTCDate()-x.getUTCDate();
+ if(day<0){m--;day+=new Date(Date.UTC(r.getUTCFullYear(),r.getUTCMonth(),0)).getUTCDate()}
+ if(m<0){y--;m+=12} return {y,m,d:day}
+}
+function cmp(a,b){return a.y-b.y||a.m-b.m||a.d-b.d}
+function txt(a){return a.y+" tahun "+a.m+" bulan "+a.d+" hari"}
+function check(){
+ res.className="result";res.innerHTML="";go.disabled=true;
+ if(!b.value||!d.value)return;
+ let r=RULES.find(x=>x.no==Number(b.value)),p=d.value.split("-").map(Number),birth=new Date(Date.UTC(p[0],p[1]-1,p[2]));
+ if(birth>REF){res.className="result bad";res.innerHTML="<b>❌ Tanggal lahir tidak valid.</b><br>Tanggal lahir tidak boleh setelah 5 November 2026.";return}
+ let a=ageAt(birth,REF),mx={y:r.y,m:r.m,d:r.d};
+ if(cmp(a,mx)<=0){
+   res.className="result ok";res.innerHTML="<b>✅ MEMENUHI SYARAT USIA</b><br>Usia pada 5 November 2026: <b>"+txt(a)+"</b><br>Batas maksimal: <b>"+txt(mx)+"</b><br><span class='small'>Silakan lanjut ke formulir pendaftaran.</span>";
+   go.disabled=false;
+ }else{
+   res.className="result bad";res.innerHTML="<b>❌ TIDAK MEMENUHI SYARAT USIA</b><br>Usia pada 5 November 2026: <b>"+txt(a)+"</b><br>Batas maksimal: <b>"+txt(mx)+"</b><br><span class='small'>Pendaftaran tidak dapat dilanjutkan.</span>";
+ }
+}
+b.onchange=check;d.onchange=check;
+go.onclick=()=>{
+ const r=RULES.find(x=>x.no==Number(b.value));
+ // Hidden-field names that should be created in Tally:
+ // cabang, nomor_cabang, tanggal_lahir_validasi, tanggal_acuan
+ const url=TALLY+"?cabang="+encodeURIComponent(r.name)+"&nomor_cabang="+encodeURIComponent(r.no)+"&tanggal_lahir_validasi="+encodeURIComponent(d.value)+"&tanggal_acuan=2026-11-05";
+ window.location.href=url;
+};
+</script></body></html>
