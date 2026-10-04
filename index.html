@@ -1,61 +1,634 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Validasi Usia MTQ Kabupaten Blitar 2026</title>
-<style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f7f4;color:#173126}
-.wrap{max-width:760px;margin:auto;padding:20px}.hero{background:linear-gradient(135deg,#087443,#075b39);color:white;padding:25px;border-radius:20px}
-.card{background:white;margin-top:16px;padding:22px;border-radius:18px;box-shadow:0 8px 25px #17312615}
-h1{font-size:25px;margin:0 0 8px}h2{font-size:19px}.badge{display:inline-block;background:#d8b65a;color:#173126;padding:6px 10px;border-radius:20px;font-weight:bold;font-size:12px}
-label{display:block;font-weight:bold;margin:15px 0 7px}select,input{width:100%;padding:13px;border:1px solid #ccd8d1;border-radius:10px;font-size:15px}
-button{width:100%;margin-top:16px;padding:14px;border:0;border-radius:10px;background:#087443;color:white;font-weight:bold;font-size:15px}
-button:disabled{background:#b8c4bd}.result{margin-top:15px;padding:16px;border-radius:12px;line-height:1.55;display:none}
-.ok{display:block;background:#e9f8ef;border:1px solid #9bd6b3;color:#126039}.bad{display:block;background:#fff0ef;border:1px solid #efaaa4;color:#8e1d16}
-.small{font-size:12px;color:#69786f;margin-top:6px}.note{font-size:13px;color:#69786f;line-height:1.5}
-</style></head><body><div class="wrap">
-<div class="hero"><span class="badge">MTQ KABUPATEN BLITAR • 2026</span>
-<h1>Validasi Usia Peserta</h1>
-<div>Validasi berdasarkan ketentuan usia pada <b>5 November 2026</b>.</div></div>
-<div class="card">
-<label>Cabang / Golongan</label><select id="branch"><option value="">— Pilih Cabang / Golongan —</option></select>
-<label>Tanggal Lahir</label><input id="dob" type="date" max="2026-11-05">
-<div class="small">Tanggal acuan: 05 November 2026</div>
-<div id="result" class="result"></div>
-<button id="go" disabled>Lanjutkan ke Pendaftaran Tally</button>
-<p class="note">Peserta yang tidak memenuhi syarat usia tidak dapat melanjutkan ke formulir Tally.</p>
-</div></div>
-<script>
-const RULES=[{"no": 1, "name": "Tartil Putra", "y": 10, "m": 11, "d": 29}, {"no": 2, "name": "Tartil Putri", "y": 10, "m": 11, "d": 29}, {"no": 3, "name": "Tilawah Anak-Anak Putra", "y": 12, "m": 11, "d": 29}, {"no": 4, "name": "Tilawah Anak-Anak Putri", "y": 12, "m": 11, "d": 29}, {"no": 5, "name": "Tilawah Remaja Putra", "y": 22, "m": 11, "d": 29}, {"no": 6, "name": "Tilawah Remaja Putri", "y": 22, "m": 11, "d": 29}, {"no": 7, "name": "Tilawah Dewasa Putra", "y": 38, "m": 11, "d": 29}, {"no": 8, "name": "Tilawah Dewasa Putri", "y": 38, "m": 11, "d": 29}, {"no": 9, "name": "MHQ 1 Juz dan Tilawah Putra", "y": 13, "m": 11, "d": 29}, {"no": 10, "name": "MHQ 1 Juz dan Tilawah Putri", "y": 13, "m": 11, "d": 29}, {"no": 11, "name": "MHQ 5 Juz dan Tilawah Putra", "y": 18, "m": 11, "d": 29}, {"no": 12, "name": "MHQ 5 Juz dan Tilawah Putri", "y": 18, "m": 11, "d": 29}, {"no": 13, "name": "MHQ 10 Juz Putra", "y": 20, "m": 11, "d": 29}, {"no": 14, "name": "MHQ 10 Juz Putri", "y": 20, "m": 11, "d": 29}, {"no": 15, "name": "MFQ Regu Putra — Juru Bicara", "y": 16, "m": 11, "d": 29}, {"no": 16, "name": "MFQ Regu Putra — Pendamping 1", "y": 16, "m": 11, "d": 29}, {"no": 17, "name": "MFQ Regu Putra — Pendamping 2", "y": 16, "m": 11, "d": 29}, {"no": 18, "name": "MFQ Regu Putri — Juru Bicara", "y": 16, "m": 11, "d": 29}, {"no": 19, "name": "MFQ Regu Putri — Pendamping 1", "y": 16, "m": 11, "d": 29}, {"no": 20, "name": "MFQ Regu Putri — Pendamping 2", "y": 16, "m": 11, "d": 29}, {"no": 21, "name": "MSQ Regu Putra — Juru Bicara", "y": 16, "m": 11, "d": 29}, {"no": 22, "name": "MSQ Regu Putra — Penterjemah", "y": 16, "m": 11, "d": 29}, {"no": 23, "name": "MSQ Regu Putra — Tilawah", "y": 16, "m": 11, "d": 29}, {"no": 24, "name": "MSQ Regu Putri — Juru Bicara", "y": 16, "m": 11, "d": 29}, {"no": 25, "name": "MSQ Regu Putri — Penterjemah", "y": 16, "m": 11, "d": 29}, {"no": 26, "name": "MSQ Regu Putri — Tilawah", "y": 16, "m": 11, "d": 29}, {"no": 27, "name": "MKQ Putra", "y": 32, "m": 11, "d": 29}, {"no": 28, "name": "MKQ Putri", "y": 32, "m": 11, "d": 29}];
-const REF=new Date(Date.UTC(2026,10,5));
-const TALLY="https://tally.so/r/PdKR4b";
-const b=document.getElementById("branch"),d=document.getElementById("dob"),res=document.getElementById("result"),go=document.getElementById("go");
-RULES.forEach(r=>{let o=document.createElement("option");o.value=r.no;o.textContent=r.no+". "+r.name;b.appendChild(o)});
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-function ageAt(x,r){
- let y=r.getUTCFullYear()-x.getUTCFullYear(),m=r.getUTCMonth()-x.getUTCMonth(),day=r.getUTCDate()-x.getUTCDate();
- if(day<0){m--;day+=new Date(Date.UTC(r.getUTCFullYear(),r.getUTCMonth(),0)).getUTCDate()}
- if(m<0){y--;m+=12} return {y,m,d:day}
+<title>Validasi Usia MTQ Kabupaten Blitar 2026</title>
+
+<style>
+*{
+  box-sizing:border-box;
 }
-function cmp(a,b){return a.y-b.y||a.m-b.m||a.d-b.d}
-function txt(a){return a.y+" tahun "+a.m+" bulan "+a.d+" hari"}
-function check(){
- res.className="result";res.innerHTML="";go.disabled=true;
- if(!b.value||!d.value)return;
- let r=RULES.find(x=>x.no==Number(b.value)),p=d.value.split("-").map(Number),birth=new Date(Date.UTC(p[0],p[1]-1,p[2]));
- if(birth>REF){res.className="result bad";res.innerHTML="<b>❌ Tanggal lahir tidak valid.</b><br>Tanggal lahir tidak boleh setelah 5 November 2026.";return}
- let a=ageAt(birth,REF),mx={y:r.y,m:r.m,d:r.d};
- if(cmp(a,mx)<=0){
-   res.className="result ok";res.innerHTML="<b>✅ MEMENUHI SYARAT USIA</b><br>Usia pada 5 November 2026: <b>"+txt(a)+"</b><br>Batas maksimal: <b>"+txt(mx)+"</b><br><span class='small'>Silakan lanjut ke formulir pendaftaran.</span>";
-   go.disabled=false;
- }else{
-   res.className="result bad";res.innerHTML="<b>❌ TIDAK MEMENUHI SYARAT USIA</b><br>Usia pada 5 November 2026: <b>"+txt(a)+"</b><br>Batas maksimal: <b>"+txt(mx)+"</b><br><span class='small'>Pendaftaran tidak dapat dilanjutkan.</span>";
- }
+
+body{
+  margin:0;
+  padding:20px;
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(135deg,#064e3b,#0f766e);
+  color:#173126;
+  min-height:100vh;
 }
-b.onchange=check;d.onchange=check;
-go.onclick=()=>{
- const r=RULES.find(x=>x.no==Number(b.value));
- // Hidden-field names that should be created in Tally:
- // cabang, nomor_cabang, tanggal_lahir_validasi, tanggal_acuan
- const url=TALLY+"?cabang="+encodeURIComponent(r.name)+"&nomor_cabang="+encodeURIComponent(r.no)+"&tanggal_lahir_validasi="+encodeURIComponent(d.value)+"&tanggal_acuan=2026-11-05";
- window.location.href=url;
-};
-</script></body></html>
+
+.wrap{
+  max-width:760px;
+  margin:auto;
+}
+
+.card{
+  background:#fffdf7;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 18px 45px rgba(0,0,0,.20);
+}
+
+.hero{
+  background:linear-gradient(135deg,#075985,#047857);
+  color:white;
+  text-align:center;
+  padding:28px 22px 25px;
+  border-bottom:5px solid #d4af37;
+}
+
+.hero .badge{
+  font-size:14px;
+  font-weight:bold;
+  letter-spacing:1.5px;
+}
+
+.hero h1{
+  margin:10px 0 6px;
+  font-size:28px;
+}
+
+.hero p{
+  margin:0;
+  font-size:15px;
+  opacity:.95;
+}
+
+.content{
+  padding:28px;
+}
+
+.step{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:5px 0 12px;
+  font-weight:bold;
+  font-size:18px;
+  color:#075985;
+}
+
+.number{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:#d4af37;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:8px;
+  font-size:16px;
+}
+
+select,
+input{
+  width:100%;
+  height:58px;
+  padding:0 16px;
+  border:1px solid #cbd5d1;
+  border-radius:14px;
+  background:white;
+  color:#173126;
+  font-size:17px;
+  outline:none;
+}
+
+select:focus,
+input:focus{
+  border-color:#0f766e;
+  box-shadow:0 0 0 3px rgba(15,118,110,.12);
+}
+
+.hint{
+  margin:8px 0 24px;
+  color:#64756e;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.result{
+  display:none;
+  margin:20px 0;
+  padding:18px;
+  border-radius:15px;
+  line-height:1.6;
+}
+
+.result.ok{
+  display:block;
+  background:#effaf3;
+  border:1px solid #86c8a8;
+  color:#165c35;
+}
+
+.result.bad{
+  display:block;
+  background:#fff5f5;
+  border:1px solid #e1a0a0;
+  color:#8b2222;
+}
+
+.result strong{
+  font-size:18px;
+}
+
+button{
+  width:100%;
+  height:58px;
+  border:0;
+  border-radius:14px;
+  background:linear-gradient(135deg,#047857,#065f46);
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 7px 18px rgba(6,95,70,.20);
+}
+
+button:disabled{
+  background:#b9c6c1;
+  box-shadow:none;
+  cursor:not-allowed;
+}
+
+.footer{
+  padding:0 28px 28px;
+  color:#667770;
+  font-size:14px;
+  line-height:1.5;
+  text-align:center;
+}
+
+@media(max-width:520px){
+
+  body{
+    padding:10px;
+  }
+
+  .hero{
+    padding:22px 16px;
+  }
+
+  .hero h1{
+    font-size:23px;
+  }
+
+  .content{
+    padding:20px 16px;
+  }
+
+  .footer{
+    padding:0 16px 22px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="card">
+
+<div class="hero">
+
+<div class="badge">
+MTQ KABUPATEN BLITAR • TAHUN 2026
+</div>
+
+<h1>Validasi Usia Peserta</h1>
+
+<p>
+Pastikan usia peserta sesuai ketentuan sebelum melanjutkan pendaftaran.
+</p>
+
+</div>
+
+
+<div class="content">
+
+<div class="step">
+<span class="number">1</span>
+Pilih Cabang / Golongan
+</div>
+
+
+<select id="cabang">
+
+<option value="">
+— Pilih Cabang / Golongan —
+</option>
+
+<option value="Tartil" data-max="10">
+1. Tartil
+</option>
+
+<option value="Tilawah Anak-Anak" data-max="12">
+2. Tilawah Anak-Anak
+</option>
+
+<option value="Tilawah Remaja" data-max="22">
+3. Tilawah Remaja
+</option>
+
+<option value="Tilawah Dewasa" data-max="38">
+4. Tilawah Dewasa
+</option>
+
+<option value="MHQ 1 Juz dan Tilawah" data-max="13">
+5. MHQ 1 Juz dan Tilawah
+</option>
+
+<option value="MHQ 5 Juz dan Tilawah" data-max="18">
+6. MHQ 5 Juz dan Tilawah
+</option>
+
+<option value="MHQ 10 Juz" data-max="20">
+7. MHQ 10 Juz
+</option>
+
+<option value="MFQ Regu" data-max="16">
+8. MFQ Regu
+</option>
+
+<option value="MSQ Regu" data-max="16">
+9. MSQ Regu
+</option>
+
+<option value="MKQ Naskah" data-max="32">
+10. MKQ Naskah
+</option>
+
+</select>
+
+
+<div class="hint">
+Putra dan Putri tidak dipisahkan karena batas usia pada kelompok cabang tersebut sama.
+</div>
+
+
+<div class="step">
+<span class="number">2</span>
+Tanggal Lahir
+</div>
+
+
+<label for="tgl">
+Tanggal Lahir Peserta
+</label>
+
+<input
+id="tgl"
+type="date"
+max="2026-11-05"
+>
+
+
+<div class="hint">
+Tanggal acuan:
+<strong>05 November 2026</strong>
+</div>
+
+
+<div id="result" class="result"></div>
+
+
+<button id="btn" disabled>
+Lanjutkan ke Pendaftaran Tally
+</button>
+
+</div>
+
+
+<div class="footer">
+
+Peserta yang tidak memenuhi syarat usia
+tidak dapat melanjutkan ke formulir Tally.
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const REF =
+new Date(Date.UTC(2026,10,5));
+
+const TALLY =
+"https://tally.so/r/PdKR4b";
+
+
+const cabang =
+document.getElementById("cabang");
+
+const tgl =
+document.getElementById("tgl");
+
+const btn =
+document.getElementById("btn");
+
+const result =
+document.getElementById("result");
+
+
+function parseDate(value){
+
+  if(!value){
+    return null;
+  }
+
+  const parts =
+  value.split("-").map(Number);
+
+  return new Date(
+    Date.UTC(
+      parts[0],
+      parts[1]-1,
+      parts[2]
+    )
+  );
+}
+
+
+function hitungUsia(tanggalLahir){
+
+  let tahun =
+  REF.getUTCFullYear() -
+  tanggalLahir.getUTCFullYear();
+
+  let bulan =
+  REF.getUTCMonth() -
+  tanggalLahir.getUTCMonth();
+
+  let hari =
+  REF.getUTCDate() -
+  tanggalLahir.getUTCDate();
+
+
+  if(hari < 0){
+
+    bulan--;
+
+    hari +=
+    new Date(
+      Date.UTC(
+        REF.getUTCFullYear(),
+        REF.getUTCMonth(),
+        0
+      )
+    ).getUTCDate();
+
+  }
+
+
+  if(bulan < 0){
+
+    tahun--;
+
+    bulan += 12;
+
+  }
+
+
+  return {
+    tahun:tahun,
+    bulan:bulan,
+    hari:hari
+  };
+
+}
+
+
+function bandingkanUsia(a,b){
+
+  if(a.tahun !== b.tahun){
+
+    return a.tahun-b.tahun;
+
+  }
+
+  if(a.bulan !== b.bulan){
+
+    return a.bulan-b.bulan;
+
+  }
+
+  return a.hari-b.hari;
+
+}
+
+
+function tanggalLahirMaksimal(maxTahun){
+
+  return "07 November " +
+  (2026-maxTahun-1);
+
+}
+
+
+function validasi(){
+
+  result.style.display="none";
+
+  result.className="result";
+
+  btn.disabled=true;
+
+
+  const option =
+  cabang.options[
+    cabang.selectedIndex
+  ];
+
+  const tanggalLahir =
+  parseDate(tgl.value);
+
+
+  if(!cabang.value || !tanggalLahir){
+
+    return;
+
+  }
+
+
+  if(tanggalLahir > REF){
+
+    result.style.display="block";
+
+    result.className="result bad";
+
+    result.innerHTML =
+    "<strong>❌ Tanggal lahir tidak valid.</strong>" +
+    "<br>Tanggal lahir tidak boleh setelah " +
+    "05 November 2026.";
+
+    return;
+
+  }
+
+
+  const batasTahun =
+  Number(option.dataset.max);
+
+
+  const usia =
+  hitungUsia(tanggalLahir);
+
+
+  const batasUsia = {
+
+    tahun:batasTahun,
+
+    bulan:11,
+
+    hari:29
+
+  };
+
+
+  result.style.display="block";
+
+
+  if(
+    bandingkanUsia(
+      usia,
+      batasUsia
+    ) <= 0
+  ){
+
+    result.className="result ok";
+
+    result.innerHTML =
+    "<strong>✅ MEMENUHI SYARAT USIA</strong>" +
+
+    "<br><br>" +
+
+    "Cabang: <strong>" +
+    cabang.value +
+    "</strong>" +
+
+    "<br>" +
+
+    "Usia pada 05 November 2026: " +
+
+    "<strong>" +
+    usia.tahun +
+    " tahun " +
+    usia.bulan +
+    " bulan " +
+    usia.hari +
+    " hari" +
+    "</strong>" +
+
+    "<br>" +
+
+    "Batas maksimal: " +
+
+    "<strong>" +
+    batasTahun +
+    " tahun 11 bulan 29 hari" +
+    "</strong>";
+
+    btn.disabled=false;
+
+  }else{
+
+    result.className="result bad";
+
+    result.innerHTML =
+    "<strong>❌ TIDAK MEMENUHI SYARAT USIA</strong>" +
+
+    "<br><br>" +
+
+    "Usia pada 05 November 2026: " +
+
+    "<strong>" +
+    usia.tahun +
+    " tahun " +
+    usia.bulan +
+    " bulan " +
+    usia.hari +
+    " hari" +
+    "</strong>" +
+
+    "<br>" +
+
+    "Batas maksimal: " +
+
+    "<strong>" +
+    batasTahun +
+    " tahun 11 bulan 29 hari" +
+    "</strong>" +
+
+    "<br>" +
+
+    "Tanggal lahir maksimal yang diperbolehkan: " +
+
+    "<strong>" +
+    tanggalLahirMaksimal(batasTahun) +
+    "</strong>";
+
+  }
+
+}
+
+
+cabang.addEventListener(
+  "change",
+  validasi
+);
+
+tgl.addEventListener(
+  "change",
+  validasi
+);
+
+
+btn.addEventListener(
+  "click",
+  function(){
+
+    if(btn.disabled){
+      return;
+    }
+
+
+    const params =
+    new URLSearchParams({
+
+      cabang:cabang.value,
+
+      tanggal_lahir_validasi:
+      tgl.value,
+
+      tanggal_acuan:
+      "2026-11-05"
+
+    });
+
+
+    window.location.href =
+    TALLY +
+    "?" +
+    params.toString();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
